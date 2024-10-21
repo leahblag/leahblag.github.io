@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+  --primary-color: #442f5e;
+  --secondary-color: #3d5e5b;
+  --text-color: #333;
+  --bg-color: #f5f5f5;
+  --transition-speed: 0.3s;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: var(--text-color);
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  transition: background var(--transition-speed), color var(--transition-speed);
+}
+
+body.dark-mode {
+  --text-color: #f5f5f5;
+  --bg-color: #333;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header {
+  background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  padding: 20px 0;
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  transition: all var(--transition-speed);
+}
+
+
+header.scrolled {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 700;
+  transition: color var(--transition-speed);
+  position: relative;
+}
+
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transition: transform var(--transition-speed);
+}
+
+nav ul li a:hover::after {
+  transform: scaleX(1);
+}
+
+.header-image img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.7);
+  transition: filter var(--transition-speed);
+}
+
+.header-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #59225e;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: #59225e;
+}
+
+h2 {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #59225e;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: var(--text-color);
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.button:hover {
+  background-color: #59225e;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  clear: both;
+}
+
+footer a {
+  color: #fff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #59225e;
+}
+
+/* Dark Mode */
+
+body.dark-mode header {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode nav ul li a {
+  color: #fff;
+}
+
+body.dark-mode nav ul li a::after {
+  background-color: #59225e;
+}
+
+body.dark-mode .header-image img {
+  filter: brightness(1);
+}
+
+body.dark-mode .header-content {
+  color: #fff;
+}
+
+body.dark-mode h1, body.dark-mode h2 {
+  color: #fff;
+}
+
+body.dark-mode p {
+  color: #fff;
+}
+
+body.dark-mode .button {
+    background-color: #59225e;
+  }
+  
+  body.dark-mode .button:hover {
+    background-color: #fff;
+    color: #59225e;
+  }
+  
+  body.dark-mode footer {
+    background-color: #59225e;
+  }
+  
+  body.dark-mode footer a {
+    color: #fff;
+  }
+  
+  body.dark-mode footer a:hover {
+    color: #442f5e;
+  }
+  
+  /* Additional Styles for Responsive Design */
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 36px;
+    }
+  
+    h2 {
+      font-size: 28px;
+    }
+  
+    p {
+      font-size: 16px;
+    }
+  
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    nav ul li {
+      margin: 10px 0;
+    }
+  
+    .header-content {
+      padding: 0 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 28px;
+    }
+  
+    h2 {
+      font-size: 24px;
+    }
+  
+    .button {
+      padding: 8px 16px;
+    }
+  }
