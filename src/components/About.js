@@ -13,32 +13,49 @@ const About = () => (
           <p className="about-me">When I'm not coding, you can find me exploring new technologies, contributing to open-source projects, or occasionally returning to the dance studio to keep my pirouettes sharp!</p>
         </div>
         <div className="about-image">
-          <img src="\imgs\IMG_4520.jpg" alt="Leah Blagbrough" />
+          <img 
+            src="/assets/images/IMG_4520.jpg" 
+            alt="Leah Blagbrough"
+            onLoad={() => console.log('Image loaded successfully')}
+            onError={(e) => {
+              console.error('Image failed to load:', e);
+              e.target.src = '/assets/images/fallback-profile.jpg';
+            }} 
+          />
         </div>
       </div>
+      
       <div className="skills-section">
-      <h3 className="my-skills">-My Skills-</h3>
-  <div className="skills-grid">
-    <div className="skill-item">JavaScript (React, Node.js)</div>
-    <div className="skill-item">HTML5 & CSS3</div>
-    <div className="skill-item">Python</div>
-    <div className="skill-item">Responsive Web Design</div>
-    <div className="skill-item">UI/UX Design</div>
-    <div className="skill-item">Version Control (Git)</div>
-    <div className="skill-item">Database Management</div>
-    <div className="skill-item">RESTful API Development</div>
-    <div className="skill-item">Agile Methodologies</div>
-    {/* Add more skills as needed */}
-  </div>
-</div>
+        <h3 className="my-skills">-My Skills-</h3>
+        <div className="skills-grid">
+          <div className="skill-item">JavaScript (React, Node.js)</div>
+          <div className="skill-item">HTML5 & CSS3</div>
+          <div className="skill-item">Python</div>
+          <div className="skill-item">Responsive Web Design</div>
+          <div className="skill-item">UI/UX Design</div>
+          <div className="skill-item">Version Control (Git)</div>
+          <div className="skill-item">Database Management</div>
+          <div className="skill-item">RESTful API Development</div>
+          <div className="skill-item">Agile Methodologies</div>
+        </div>
+      </div>
+
       <div className="cta-section">
         <p>Interested in seeing my work?</p>
         <a href="/projects" className="cta-button">View My Projects</a>
       </div>
+
       <div className="ballet-section">
         <h3>My Ballet Journey</h3>
         <p>Curious about my ballet background? Check out one of my performances:</p>
-        <a href="https://youtu.be/utBr3GZoPD8?si=zQcgQJUuvS5q5Pzs&t=480" target="_blank" rel="noopener noreferrer" className="video-link">Watch Ballet Performance</a>
+        <a 
+          href="https://youtu.be/utBr3GZoPD8?si=zQcgQJUuvS5q5Pzs&t=480" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="video-link"
+        >
+          Watch Ballet Performance
+        </a>
       </div>
     </div>
   </section>

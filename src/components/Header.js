@@ -1,7 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../ThemeContext';
 import '../styles/Header.css';
+
+const ScrollToTopLink = ({ to, children }) => {
+    const navigate = useNavigate();
+    
+    const handleClick = (e) => {
+        e.preventDefault();
+        window.scrollTo(0, 0);
+        navigate(to);
+    };
+
+    return (
+        <Link to={to} onClick={handleClick}>
+            {children}
+        </Link>
+    );
+};
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,10 +44,10 @@ const Header = () => {
       <div className="header-content">
         <nav className="nav-menu">
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/about">About</Link></li>
-            <li><Link to="/projects">Projects</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
+            <li><ScrollToTopLink to="/">Home</ScrollToTopLink></li>
+            <li><ScrollToTopLink to="/about">About</ScrollToTopLink></li>
+            <li><ScrollToTopLink to="/projects">Projects</ScrollToTopLink></li>
+            <li><ScrollToTopLink to="/contact">Contact</ScrollToTopLink></li>
           </ul>
         </nav>
         <button onClick={toggleTheme} className="theme-toggle">

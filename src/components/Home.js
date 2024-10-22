@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/global.css';
-import Chatbot from './Chatbot';
 
 
 
@@ -78,6 +77,7 @@ const Home = () => {
 
   return (
     <div className="home">
+      
       <section className="hero">
         <div className="hero-content">
           <div className="title-container">
