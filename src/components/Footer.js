@@ -52,7 +52,13 @@ const Footer = () => {
                 <div className="footer-section">
                     <h4>Newsletter</h4>
                     <form className="newsletter-form">
-                        <input type="email" placeholder="Enter your email" required />
+                    <input
+                    id="email"
+                    type="email"
+                     placeholder="Enter your email"
+                     required
+                     autoComplete="email" // Added autocomplete attribute
+/>
                         <button type="submit">Subscribe</button>
                     </form>
                 </div>

@@ -5,6 +5,8 @@ header {
   padding: 20px 0;
   position: fixed;
   width: 100%;
+  height: auto;
+  top: 0;
   z-index: 1000;
   transition: all 0.5s ease-in-out;
 }
@@ -17,23 +19,26 @@ header.scrolled {
 
 .header-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Always horizontal */
+  justify-content: space-between;
   align-items: center;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0px;
+  padding: 0 20px;
   transition: all 0.5s ease-in-out;
 }
 
 .nav-menu {
-  margin-bottom:0px;
+  margin-bottom: 0;
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
 }
 
 .nav-menu ul {
   list-style-type: none;
   padding: 0;
-  display: flex;
-  gap: 50px;
+  display: flex; /* Keep items in a row */
+  gap: 50px; /* Space between links */
+  flex-wrap: nowrap; /* Prevent items from wrapping */
 }
 
 .nav-menu ul li a {
@@ -75,13 +80,28 @@ header.scrolled .nav-menu ul li a {
 .theme-toggle {
   background: none;
   border: none;
-  color: var(--text-primary); cursor: pointer;
+  color: var(--text-primary);
+  cursor: pointer;
   padding: 5px 10px;
-  font-size: .9rem;
+  font-size: 3rem;
   transition: all 0.3s ease;
 }
 
 .theme-toggle:hover {
   color: var(--accent);
   transform: translateY(-5px);
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 15px 0;
+  }
+
+  .nav-menu ul li a {
+    font-size: 1rem; /* Keep the font size larger */
+  }
+
+  .theme-toggle {
+    font-size: 1rem;
+  }
 }

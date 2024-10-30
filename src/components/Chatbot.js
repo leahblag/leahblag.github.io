@@ -51,7 +51,7 @@ const Chatbot = () => {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Simple response logic - you can replace this with actual API calls
+    // Define bot responses
     const responses = {
       "hello": "Hi there! How can I help you?",
       "how are you": "I'm doing well, thank you for asking!",
@@ -109,6 +109,7 @@ const Chatbot = () => {
           <form onSubmit={handleSendMessage} className="chatbot-input">
             <input
               type="text"
+              id="chat-input"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Type your message..."

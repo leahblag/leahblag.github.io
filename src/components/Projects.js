@@ -1,6 +1,6 @@
 // components/Projects.js
 import React from 'react';
-import '../styles/global.css';
+import '../styles/Projects.css';
 
 const Project = ({ title, description, imageUrl }) => (
   <div className="project">
@@ -16,12 +16,12 @@ const Project = ({ title, description, imageUrl }) => (
 const Projects = () => (
   <section id="projects" className="section">
     <div className="container">
-      <h2>My Projects</h2>
+      <h2 className='projects'>- My Projects -</h2>
       <div className="projects-grid">
         <Project
-          title="Data Analysis with Python"
-          description="A deep dive into data insights and visualization using Python."
-          imageUrl="/api/placeholder/400/300"
+          title="EcoSense: Emissions Data Chatbot"
+          description="EcoSense is an interactive chatbot designed to simplify emissions data analysis. Using Python and machine learning, it helps users explore trends in emissions data, offering insights on environmental impact. This project showcases my skills in data science and chatbot development, merging innovation and sustainability to make complex information accessible and engaging."
+          imageUrl="/assets/images/ecosense_chatbot.webp" 
         />
         <Project
           title="Interactive Chatbot"
@@ -32,4 +32,5 @@ const Projects = () => (
     </div>
   </section>
 );
+
 export default Projects;

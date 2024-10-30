@@ -51,7 +51,7 @@ const Header = () => {
           </ul>
         </nav>
         <button onClick={toggleTheme} className="theme-toggle">
-          {isDarkMode ? '🌞 Light Mode' : '🌙 Dark Mode'}
+          {isDarkMode ? '🌞' : '🌙'}
         </button>
       </div>
     </header>
