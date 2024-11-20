@@ -1,23 +1,25 @@
+// components/BackgroundAnimation.js
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 const BackgroundAnimation = () => {
   const containerRef = useRef(null);
+  const animationsRef = useRef([]);
 
   useEffect(() => {
-    const container = containerRef.current;
-    const circles = [];
+    if (!containerRef.current) return;
 
-    for (let i = 0; i < 50; i++) {
+    const circles = Array.from({ length: 50 }, () => {
       const circle = document.createElement('div');
       circle.classList.add('animated-circle');
-      circle.style.setProperty('--delay', `${Math.random() * 4}s`);
-      circle.style.setProperty('--duration', `${Math.random() * 40 + 10}s`);
-      container.appendChild(circle);
-      circles.push(circle);
-    }
+      return circle;
+    });
 
-    gsap.to(circles, {
+    circles.forEach(circle => {
+      containerRef.current?.appendChild(circle);
+    });
+
+    const animation = gsap.to(circles, {
       x: "random(-50, 50)",
       y: "random(-50, 50)",
       scale: "random(0.1, 2)",
@@ -28,11 +30,16 @@ const BackgroundAnimation = () => {
       stagger: 0.1
     });
 
+    animationsRef.current.push(animation);
+
+    // Cleanup
     return () => {
       circles.forEach(circle => circle.remove());
+      animationsRef.current.forEach(anim => anim.kill());
     };
   }, []);
 
-  return <div id="background-animation" ref={containerRef}></div>;
+  return <div id="background-animation" ref={containerRef} />;
 };
+
 export default BackgroundAnimation;

@@ -1,0 +1,205 @@
+/* styles/About.css */
+.about-section {
+    padding: 4rem 1rem;
+    background-color: var(--background-light);
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .section-title {
+    font-size: 3rem;
+    padding-top: 6rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--text-primary);
+    /* Adjusted shadow for better contrast in both themes */
+    text-shadow: var(--theme-shadow, 0 2px 2px rgba(0, 0, 0, 0.2));
+  }
+  
+  .about-content {
+    display: flex;
+    flex-direction: row; /* Side by side on larger screens */
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .about-text {
+    flex: 1;
+  }
+  
+  .about-me {
+    font-size: 1.6rem;
+    line-height: 1.8; /* Increased for better readability */
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    /* Removed text shadow for better readability */
+    font-weight: 400; /* Added for consistent weight */
+  }
+  
+  .tagline {
+    align-items: center;
+    font-size: 2rem;
+    font-weight: 600; /* Changed from font-style: bold */
+    color: var(--accent);
+    margin-bottom: 1rem;
+    /* Adjusted shadow for better contrast */
+    text-shadow: var(--theme-shadow, 0 1px 2px rgba(0, 0, 0, 0.15));
+  }
+  
+  .about-image {
+    flex: 1;
+    max-width: 400px;
+    margin: 0 auto; /* Centers the image container */
+}
+
+.about-image img {
+    width: 100%; /* Makes the image responsive */
+    max-width: 400px; /* Limits the maximum size */
+    height: auto; /* Maintains aspect ratio */
+    border-radius: 50px;
+    box-shadow: var(--theme-shadow, 0 4px 8px rgba(0, 0, 0, 0.15));
+}
+/* For tablets and smaller desktops */
+@media (max-width: 1024px) {
+    .about-content {
+        flex-direction: column; /* Stack content vertically */
+        align-items: center; /* Center items horizontally */
+    }
+
+    .about-image {
+        margin-top: 2rem; /* Add space between text and image */
+    }
+
+    .about-image img {
+        max-width: 300px; /* Slightly smaller image */
+    }
+}
+
+/* For mobile phones */
+@media (max-width: 768px) {
+    .about-image img {
+        max-width: 100%; /* Full width of container */
+        border-radius: 25px; /* Slightly smaller border radius */
+    }
+
+    .about-text {
+        text-align: center; /* Center text on mobile */
+    }
+
+    .tagline {
+        font-size: 1.8rem; /* Smaller tagline font */
+    }
+
+    .about-me {
+        font-size: 1.4rem; /* Smaller about me text */
+    }
+}
+  
+  .skills-section {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.my-skills {
+    font-size: 1.8rem;
+    color: var(--text-primary);
+    text-shadow: var(--theme-shadow, 0 1px 1px rgba(0, 0, 0, 0.1));
+    margin-bottom: 2rem;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    justify-content: center;
+    max-width: 900px; /* Adjust this value based on your preference */
+    margin: 0 auto;
+}
+
+.skill-item {
+    background-color: var(--accent);
+    color: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 60px; /* Ensures all items have the same height */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}
+  
+  .cta-section {
+    margin-top: 3rem;
+    text-align: center;
+  }
+  
+  .cta-button {
+    background-color: var(--accent);
+    color: #ffffff;
+    border: none;
+    padding: 1rem 2rem; /* Increased padding for better touch target */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.4rem; /* Added for consistency */
+  }
+  
+  .cta-button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-1px); /* Added subtle hover effect */
+  }
+  
+  .ballet-section {
+    margin-top: 3rem;
+  }
+  
+  .video-link {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500; /* Added for better visibility */
+  }
+  
+  .video-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline; /* Added for better interaction feedback */
+  }
+  
+  /* Add these CSS variables to your root */
+  :root {
+    --theme-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Dark theme adjustments */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --theme-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
+    }
+    
+    .about-me {
+      font-weight: 300; /* Slightly lighter font weight for dark mode */
+    }
+    
+    .skills-list li::before {
+      opacity: 0.9; /* Slightly reduced opacity for checkmarks in dark mode */
+    }
+  }

@@ -1,28 +1,235 @@
-// src/components/Home.js
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/global.css';
-import Chatbot from './Chatbot';
-
-
+import '../styles/cube.css';
+import { ThemeContext } from '../context/ThemeContext';
 
 const Home = () => {
-  useEffect(() => {
-    const cube = document.querySelector('.cube');
-    let rotateY = 0;
-    let rotateX = 20;
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const [shapes, setShapes] = useState(['cube']);
+  const [effectsEnabled, setEffectsEnabled] = useState(true);
+  const [shapeSize, setShapeSize] = useState(150);
+  const [rotationSpeed, setRotationSpeed] = useState(1);
+  const animationFrameRef = useRef();
+  const shapeRef = useRef();
 
-    const rotateCube = () => {
-      rotateY += 0.5;
-      cube.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-      requestAnimationFrame(rotateCube);
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
+
+  useEffect(() => {
+    const shape = shapeRef.current;
+    const headerHeight = 80;
+    let isDragging = false;
+    let currentX = 0;
+    let currentY = 0;
+    let initialX = 0;
+    let initialY = 0;
+    let xOffset = 0;
+    let yOffset = 0;
+    let velocityX = 0;
+    let velocityY = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let rotationX = -25;
+    let rotationY = 0;
+    let rotationZ = 0;
+
+    const createTrailEffect = (transform) => {
+      if (!effectsEnabled) return;
+      const trail = document.createElement('div');
+      trail.className = 'floating-shape-trail';
+      trail.style.transform = transform;
+      shape.parentElement.appendChild(trail);
+      setTimeout(() => trail.remove(), 1000);
     };
 
-    rotateCube();
-  }, []);
+    const updateShapePosition = (timestamp) => {
+      if (!isDragging) {
+        velocityX *= 0.98;
+        velocityY *= 0.98;
+        rotationZ += (velocityX - velocityY) * 0.1;
+        
+        xOffset += velocityX;
+        yOffset += velocityY;
 
-  const skillCategories = [
+        // Enhanced boundary physics
+        const bounce = 0.8;
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+
+        if (xOffset < 0) {
+          xOffset = 0;
+          velocityX *= -bounce;
+          rotationZ += 15;
+        }
+        if (xOffset > windowWidth - shapeSize) {
+          xOffset = windowWidth - shapeSize;
+          velocityX *= -bounce;
+          rotationZ -= 15;
+        }
+        if (yOffset < headerHeight) {
+          yOffset = headerHeight;
+          velocityY *= -bounce;
+          rotationX += 15;
+        }
+        if (yOffset > windowHeight - shapeSize) {
+          yOffset = windowHeight - shapeSize;
+          velocityY *= -bounce;
+          rotationX -= 15;
+        }
+
+        const transform = `
+          translate3d(${xOffset}px, ${yOffset}px, 0)
+          rotateX(${rotationX}deg)
+          rotateY(${rotationY}deg)
+          rotateZ(${rotationZ}deg)
+        `;
+        
+        shape.style.transform = transform;
+
+        if (effectsEnabled && (Math.abs(velocityX) > 0.5 || Math.abs(velocityY) > 0.5)) {
+          createTrailEffect(transform);
+        }
+
+        if (Math.abs(velocityX) > 0.01 || Math.abs(velocityY) > 0.01) {
+          animationFrameRef.current = requestAnimationFrame(updateShapePosition);
+        }
+      }
+    };
+
+    const dragStart = (e) => {
+      if (e.target.closest('.floating-shape')) {
+        isDragging = true;
+        initialX = e.clientX - xOffset;
+        initialY = e.clientY - yOffset;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        
+        shape.style.animation = 'none';
+        shape.style.cursor = 'grabbing';
+      }
+    };
+
+    const drag = (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+        
+        velocityX = (e.clientX - lastX) * 2;
+        velocityY = (e.clientY - lastY) * 2;
+        
+        rotationX += velocityY * 0.2;
+        rotationY += velocityX * 0.2;
+        
+        lastX = e.clientX;
+        lastY = e.clientY;
+        
+        xOffset = currentX;
+        yOffset = currentY;
+
+        const transform = `
+          translate3d(${currentX}px, ${currentY}px, 0)
+          rotateX(${rotationX}deg)
+          rotateY(${rotationY}deg)
+          rotateZ(${rotationZ}deg)
+        `;
+        
+        shape.style.transform = transform;
+        
+        if (effectsEnabled) {
+          createTrailEffect(transform);
+        }
+      }
+    };
+
+    const dragEnd = () => {
+      if (isDragging) {
+        isDragging = false;
+        shape.style.cursor = 'grab';
+        animationFrameRef.current = requestAnimationFrame(updateShapePosition);
+      }
+    };
+
+    shape.addEventListener('mousedown', dragStart);
+    document.addEventListener('mousemove', drag);
+    document.addEventListener('mouseup', dragEnd);
+
+    return () => {
+      shape.removeEventListener('mousedown', dragStart);
+      document.removeEventListener('mousemove', drag);
+      document.removeEventListener('mouseup', dragEnd);
+      cancelAnimationFrame(animationFrameRef.current);
+    };
+  }, [shapeSize, effectsEnabled]);
+
+  const ShapeControls = () => (
+    <div className="shape-controls">
+      <div className="control-panel">
+        <h3>Shape Controls</h3>
+        <div className="shape-toggles">
+          {['Cube', 'Pyramid', 'Sphere', 'Octahedron'].map(shape => (
+            <button 
+              key={shape}
+              onClick={() => setShapes(prev => 
+                prev.includes(shape.toLowerCase()) 
+                  ? prev.filter(s => s !== shape.toLowerCase())
+                  : [...prev, shape.toLowerCase()]
+              )}
+              className={`control-button ${shapes.includes(shape.toLowerCase()) ? 'active' : ''}`}
+            >
+              {shape}
+            </button>
+          ))}
+        </div>
+        <div className="effect-controls">
+          <label className="control-label">
+            Size
+            <input 
+              type="range" 
+              min="100" 
+              max="200" 
+              value={shapeSize}
+              onChange={(e) => setShapeSize(Number(e.target.value))}
+              className="control-slider"
+            />
+          </label>
+          <label className="control-label">
+            Speed
+            <input 
+              type="range" 
+              min="0.5" 
+              max="2" 
+              step="0.1"
+              value={rotationSpeed}
+              onChange={(e) => setRotationSpeed(Number(e.target.value))}
+              className="control-slider"
+            />
+          </label>
+          <button 
+            onClick={() => setEffectsEnabled(!effectsEnabled)}
+            className="control-button"
+          >
+            {effectsEnabled ? 'Disable' : 'Enable'} Effects
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="home">
+      <button 
+        className="theme-toggle"
+        onClick={toggleTheme}
+        aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      >
+        {theme === 'light' ? '🌙' : '☀️'}
+      </button>
+      
+
+  const skillCategories = useMemo(() => [
     {
       category: "Programming Languages",
       skills: [
@@ -48,36 +255,56 @@ const Home = () => {
         { name: "VS Code", description: "A source-code editor made by Microsoft" },
         { name: "npm", description: "A package manager for JavaScript" }
       ]
-    },
-    {
-      category: "Web Development",
-      skills: [
-        { name: "Responsive Web Design", description: "Creating web pages that look good on all devices" },
-        { name: "RESTful APIs", description: "An architectural style for an application program interface (API)" },
-        { name: "Front-end Development", description: "Creating the user interface and user experience of a website" },
-        { name: "Back-end Development", description: "Building and maintaining the server-side of web applications" }
-      ]
-    },
-    {
-      category: "Data Skills",
-      skills: [
-        { name: "Data Analysis", description: "Inspecting, cleansing, transforming, and modeling data" },
-        { name: "Data Visualization", description: "The graphic representation of data" }
-      ]
-    },
-    {
-      category: "Soft Skills",
-      skills: [
-        { name: "Problem-Solving", description: "Finding solutions to difficult or complex issues" },
-        { name: "Collaboration", description: "Working with others to produce or create something" },
-        { name: "Creativity", description: "Using imagination or original ideas to create something" },
-        { name: "Adaptability", description: "The quality of being able to adjust to new conditions" }
-      ]
     }
-  ];
+  ], []);
+
+  const renderSkills = useMemo(() =>
+    skillCategories.map((category, index) => (
+      <div key={index} className="skill-category" data-aos="fade-up">
+        <h3>{category.category}</h3>
+        <div className="skill-items">
+          {category.skills.map((skill, skillIndex) => (
+            <div
+              key={skillIndex}
+              className="skill-item"
+              title={skill.description}
+              data-aos="fade-up"
+              data-aos-delay={skillIndex * 100}
+            >
+              {skill.name}
+            </div>
+          ))}
+        </div>
+      </div>
+    )),
+    [skillCategories]
+  );
 
   return (
     <div className="home">
+      <ShapeControls />
+      <div className="floating-shape-container">
+        {shapes.map((shape, index) => (
+          <div 
+            key={shape}
+            ref={index === 0 ? shapeRef : null}
+            className={`floating-shape floating-${shape}`}
+            style={{ 
+              width: `${shapeSize}px`, 
+              height: `${shapeSize}px`,
+              animationDuration: `${40 / rotationSpeed}s`
+            }}
+          >
+            <div className="shape-face front">Innovation</div>
+            <div className="shape-face back">Creativity</div>
+            <div className="shape-face right">Design</div>
+            <div className="shape-face left">Development</div>
+            <div className="shape-face top">Problem Solving</div>
+            <div className="shape-face bottom">Team Work</div>
+          </div>
+        ))}
+      </div>
+
       <section className="hero">
         <div className="hero-content">
           <div className="title-container">
@@ -89,37 +316,17 @@ const Home = () => {
             <Link to="/projects" className="cta-button">View My Work</Link>
             <Link to="/contact" className="cta-button cta-secondary">Get in Touch</Link>
           </div>
-        </ div>
-        <div className="cube-container">
-  <div className="cube">
-    <div className="cube-face cube-face-front">Creativity</div>
-    <div className="cube-face cube-face-back">Innovation</div>
-    <div className="cube-face cube-face-left">AI Enthusiast</div>
-    <div className="cube-face cube-face-right">UX Lover</div>
-    <div className="cube-face cube-face-top">Always Learning</div>
-    <div className="cube-face cube-face-bottom">Team Player</div>
-  </div>
-</div>
+        </div>
       </section>
+
       <section className="skills">
         <h2>My Toolkit</h2>
         <div className="skills-container">
-          {skillCategories.map((category, index) => (
-            <div key={index} className="skill-category">
-              <h3>{category.category}</h3>
-              <div className="skill-items">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex} className="skill-item" title={skill.description}>
-                    {skill.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+          {renderSkills}
         </div>
       </section>
     </div>
   );
 };
 
-export default Home;
+export default React.memo(Home);
