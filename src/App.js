@@ -1,16 +1,17 @@
-// App.js
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ThemeProvider } from './ThemeContext';
-import Header from './components/Header';
-import Home from './components/Home';
-import About from './components/About';
-import Projects from './components/Projects';
-import Contact from './components/Contact'; // Add this import
-import Footer from './components/Footer';
+// C:\react-portfolio\src\App.js
+import React from 'react'; 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';  // Import React Router
+import { ThemeContext, ThemeProvider } from './context/ThemeContext';
+import Header from './components/Header'; // Import Header
+import Home from './components/Home'; // Import Home
+import About from './components/About'; // Import About
+import Projects from './components/Projects'; // Import Projects
+import Contact from './components/Contact';  // Import Contact
+import Footer from './components/Footer'; // Import Footer
 import ScrollToTop from './components/ScrollToTop';
-import Chatbot from './components/Chatbot';
-import ErrorBoundary from './components/ErrorBoundary'; // Create this component
+import Chatbot from './components/Chatbot'; // Import Chatbot
+import ErrorBoundary from './components/ErrorBoundary'; // Import ErrorBoundary
+// import SpiralSVG from './components/SpiralSVG'; // Corrected import path
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
                 {/* <Route path="*" element={<NotFound />} /> Add 404 route */}
               </Routes>
             </main>
+            {/* <SpiralSVG /> Include the SVG component here */}
             <Chatbot />
             <Footer />
           </div>

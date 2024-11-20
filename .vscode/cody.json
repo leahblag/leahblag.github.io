@@ -1,0 +1,10 @@
+{
+  "cleaner": {
+    "prompt": "review the code i’ve selected and make it cleaner, more efficient, and next-level, like a coding prodigy. focus on improving readability, optimizing performance, and modernizing the structure while maintaining functionality. make sure it follows best practices for the language and platform. keep the comments clear and concise, and avoid unnecessary complexity. let me know if there are any advanced techniques i could add to make it even more impressive.",
+    "context": {
+      "selection": true,
+      "openTabs": true
+    },
+    "mode": "ask"
+  }
+}

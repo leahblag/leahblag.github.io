@@ -1,107 +1,107 @@
+/* Header.css */
+
 header {
-  background-color: rgba(255, 255, 255, 0.1);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  padding: 20px 0;
-  position: fixed;
-  width: 100%;
-  height: auto;
-  top: 0;
-  z-index: 1000;
-  transition: all 0.5s ease-in-out;
+  background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
+  -webkit-backdrop-filter: blur(10px); /* Blur effect */
+  backdrop-filter: blur(10px); /* Blur effect */
+  padding: 2rem 2rem; /* Default padding */
+  position: fixed; /* Fixed positioning for the header */
+  width: 100%; /* Full width of the viewport */
+  height: auto; /* Auto height based on content */
+  top: 0; /* Position at the top of the viewport */
+  z-index: 1000; /* Keep header above other elements */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  transition: padding 0.3s ease; /* Smooth transition for padding */
 }
 
 header.scrolled {
-  padding: 10px 0;
-  background-color: rgba(255, 255, 255, 0.212);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 0; /* Reduced padding on scroll */
 }
 
 .header-content {
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Space items apart */
+  align-items: center; /* Center items vertically */
+  padding: 10px 20px; /* Padding for header content */
+}
+
+header h1 {
+  font-size: 2rem; /* Adjust as needed */
+  color: var(--text-primary); /* Text color for menu items */
+  text-decoration: none; /* Remove underline from links */
+  margin: 0; /* Remove default margin */
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for transform and color */
+}
+
+/* Navigation styles */
+nav {
   display: flex;
-  flex-direction: row; /* Always horizontal */
-  justify-content: space-between;
+  justify-content: space-around; /* Space out menu items evenly */
   align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  transition: all 0.5s ease-in-out;
 }
 
-.nav-menu {
-  margin-bottom: 0;
-  overflow-x: auto; /* Allow horizontal scrolling if needed */
+nav ul {
+  display: flex; /* Horizontal layout for links */
+  list-style: none; /* Remove default bullet points */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
 }
 
-.nav-menu ul {
-  list-style-type: none;
-  padding: 0;
-  display: flex; /* Keep items in a row */
-  gap: 50px; /* Space between links */
-  flex-wrap: nowrap; /* Prevent items from wrapping */
+nav li {
+  position: relative; /* For the underline effect */
+  margin: 0 20px; /* Space between menu items */
 }
 
-.nav-menu ul li a {
-  color: var(--text-primary);
-  text-decoration: none;
-  font-size: 1.1rem;
-  padding: 10px 0;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
+nav a {
+  color: var(--text-primary); /* Text color for menu items */
+  text-decoration: none; /* Remove underline from links */
+  font-size: 1.2rem; /* Adjust font size */
+  padding: 0.5rem 1rem; /* Add some padding for clickable area */
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for transform and color */
 }
 
-header.scrolled .nav-menu ul li a {
-  font-size: 1rem;
+nav a:hover {
+  transform: translateY(-5px); /* Move the item upward on hover */
+  color: var(--glitch-before-color); /* Change color on hover */
 }
 
-.nav-menu ul li a::before {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--accent);
-  visibility: hidden;
-  transition: all 0.3s ease-in-out;
+/* Underline effect */
+nav a::after {
+  content: ''; /* Empty content for the underline */
+  display: block; /* Block to allow width */
+  height: 3px; /* Height of the underline */
+  background: #ffcc0077; /* Color of the underline */
+  position: absolute; /* Position it below the text */
+  left: 0; /* Align to the left */
+  bottom: -5px; /* Position it below the link */
+  width: 0; /* Start with no width */
+  transition: width 0.3s ease; /* Animate the width */
 }
 
-.nav-menu ul li a:hover {
-  color: var(--accent);
-  transform: translateY(-5px);
-}
-
-.nav-menu ul li a:hover::before {
-  visibility: visible;
-  width: 100%;
+nav a:hover::after {
+  width: 100%; /* Expand to full width on hover */
 }
 
 .theme-toggle {
-  background: none;
-  border: none;
-  color: var(--text-primary);
-  cursor: pointer;
-  padding: 5px 10px;
-  font-size: 3rem;
-  transition: all 0.3s ease;
-}
-
-.theme-toggle:hover {
-  color: var(--accent);
-  transform: translateY(-5px);
+  background: transparent; /* Transparent background */
+  border: none; /* No border */
+  color: #fff; /* Text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 3rem; /* Adjust size */
+  padding-right: 70px;
 }
 
 @media (max-width: 768px) {
   header {
-    padding: 15px 0;
+      padding: 10px 0; /* Reduce padding on smaller screens */
+  }
+  
+  nav {
+      flex-direction: column; /* Stack items on smaller screens */
+      align-items: center; /* Center items on smaller screens */
   }
 
-  .nav-menu ul li a {
-    font-size: 1rem; /* Keep the font size larger */
-  }
-
-  .theme-toggle {
-    font-size: 1rem;
+  nav li {
+      margin: 10px 0; /* Space for stacked items */
   }
 }
